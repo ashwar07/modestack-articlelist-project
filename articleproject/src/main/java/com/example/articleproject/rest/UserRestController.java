@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.articleproject.model.UserRepository;
 import com.example.articleproject.service.EncryptionService;
 import com.example.articleproject.service.UserService;
 import com.example.articleproject.vo.UserVO;
@@ -41,9 +42,19 @@ public class UserRestController {
     	userVO.setPassword(encryptPassword);
         String accesstoken = userService.validateUser(userVO);
         Map<String, String> response = new HashMap<>();
-        response.put("acessToken",accesstoken);
-        response.put("message", "success");
-        ResponseEntity<Map<String,String>> resp = new ResponseEntity<>(response, HttpStatus.OK);
+        ResponseEntity<Map<String,String>> resp = null;
+        
+        if (accesstoken != "FAILED") {
+            response.put("acessToken",accesstoken);
+            response.put("message", "success");
+            resp = new ResponseEntity<>(response, HttpStatus.OK);
+        }else {
+            response.put("acessToken","");
+            response.put("message", "AUTENTICATION FAILED");
+            resp = new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+
+        }
+        
         return resp;
     }
 

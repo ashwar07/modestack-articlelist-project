@@ -2,6 +2,8 @@ package com.example.articleproject.service;
 
 import com.example.articleproject.model.Article;
 import com.example.articleproject.model.ArticleRepository;
+import com.example.articleproject.model.User;
+import com.example.articleproject.model.UserRepository;
 import com.example.articleproject.vo.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,22 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public void createArticle(ArticleVO articleVO) {
-        convertArticleVOtoModel(articleVO);
+    @Autowired
+    UserRepository userRepository;
+
+    public String createArticle(ArticleVO articleVO) {
+    	
+    	User existingUser = userRepository.findByAccessToken(articleVO.getAccess_token());
+    	if (null != existingUser) {
+            convertArticleVOtoModel(articleVO);
+            return "new article created";
+    	}else {
+    		return "";
+    	}
+
+        
+    	
+    	
     }
 
     public List<ArticleVO> listArticles() {

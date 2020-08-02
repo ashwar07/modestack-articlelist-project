@@ -19,8 +19,15 @@ public class ArticleRestController {
 
     @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
     public ResponseEntity<String> createArticle(@RequestBody ArticleVO articleVO) throws Exception {
-        articleService.createArticle(articleVO);
-        ResponseEntity<String> resp = new ResponseEntity<>("new article created, access_token" + articleVO.getAccess_token(), HttpStatus.CREATED);
+        String respString = articleService.createArticle(articleVO);
+        ResponseEntity<String> resp = null;
+        if(!respString.equals("")) {
+        	resp = new ResponseEntity<>(respString, HttpStatus.CREATED);
+        }else {
+        	respString = "Invalid access token";
+        	resp = new ResponseEntity<>(respString, HttpStatus.EXPECTATION_FAILED);
+        }
+        
         return resp;
     }
 

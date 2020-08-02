@@ -15,7 +15,11 @@ public class User {
     String username;
     String password;
     String email;
+    String address;
+    String accessToken;
+    String date_string;
 
+    
     public Integer getId() {
         return id;
     }
@@ -56,5 +60,30 @@ public class User {
         this.address = address;
     }
 
-    String address;
+	public String getAccesstoken() {
+		return accessToken;
+	}
+
+	public void setAccesstoken(String accesstoken) {
+		this.accessToken = accesstoken;
+	}
+
+	public String getDate_string() {
+		return date_string;
+	}
+
+	public void setDate_string(String date_string) {
+		this.date_string = date_string;
+	}
+
+	public String getDateString() {
+		return date_string;
+	}
+
+	public void setDateString(String dateString) {
+		this.date_string = dateString;
+	}
+
+    
+    
 }

@@ -6,6 +6,26 @@ public class UserVO {
     String password;
     String email;
     String address;
+    String access_token;
+    String date_string;
+    
+    public String getAccess_token() {
+		return access_token;
+	}
+
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
+	}
+
+	public String getTimerString() {
+		return timerString;
+	}
+
+	public void setTimerString(String timerString) {
+		this.timerString = timerString;
+	}
+
+	String timerString;
 
     public String getUsername() {
         return username;
@@ -38,4 +58,14 @@ public class UserVO {
     public void setAddress(String address) {
         this.address = address;
     }
+
+	public String getDateString() {
+		return date_string;
+	}
+
+	public void setDateString(String dateString) {
+		this.date_string = dateString;
+	}
+    
+    
 }
