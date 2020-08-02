@@ -20,7 +20,7 @@ public class ArticleRestController {
     @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
     public ResponseEntity<String> createArticle(@RequestBody ArticleVO articleVO) throws Exception {
         articleService.createArticle(articleVO);
-        ResponseEntity<String> resp = new ResponseEntity<>("new article created", HttpStatus.CREATED);
+        ResponseEntity<String> resp = new ResponseEntity<>("new article created, access_token" + articleVO.getAccess_token(), HttpStatus.CREATED);
         return resp;
     }
 
