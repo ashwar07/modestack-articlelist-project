@@ -39,11 +39,15 @@ public class CurrentDateService {
 			int minutes = (int)diffMinutes;
 			int hours = (int)diffHours;
 			int days = (int)diffDays;
+			
+			int minuteLimit =  0;
+			int secondsLimmit = 59;
+			int hoursLimit = 0;
+			int daysLimit = 0; 
 		
-			if(minutes>0||hours>0||days>0||seconds>10)
+			if(minutes > minuteLimit || hours > hoursLimit|| days > daysLimit|| seconds > secondsLimmit)
 			{
-				
-				return true;
+					return true;
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();

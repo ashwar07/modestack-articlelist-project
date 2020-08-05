@@ -6,7 +6,6 @@ public class ArticleVO {
     String author;
     String body;
     String access_token;
-    String date_string;
     
     public String getAccess_token() {
 		return access_token;

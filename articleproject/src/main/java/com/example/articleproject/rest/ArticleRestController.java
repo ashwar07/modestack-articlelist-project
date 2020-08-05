@@ -2,6 +2,7 @@ package com.example.articleproject.rest;
 
 
 import com.example.articleproject.service.ArticleService;
+import com.example.articleproject.vo.ArticleListVO;
 import com.example.articleproject.vo.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,9 +42,9 @@ public class ArticleRestController {
     }
 
     @GetMapping(value = "/", produces = "application/json")
-    public ResponseEntity<List<ArticleVO>> listArticles() throws Exception {
-        List<ArticleVO> articles = articleService.listArticles();
-        ResponseEntity<List<ArticleVO>> resp = new ResponseEntity<>(articles, HttpStatus.OK);
+    public ResponseEntity<List<ArticleListVO>> listArticles() throws Exception {
+        List<ArticleListVO> articles = articleService.listArticles();
+        ResponseEntity<List<ArticleListVO>> resp = new ResponseEntity<>(articles, HttpStatus.OK);
         return resp;
     }
 

@@ -10,6 +10,7 @@ import com.example.articleproject.model.Article;
 import com.example.articleproject.model.ArticleRepository;
 import com.example.articleproject.model.User;
 import com.example.articleproject.model.UserRepository;
+import com.example.articleproject.vo.ArticleListVO;
 import com.example.articleproject.vo.ArticleVO;
 
 @Service
@@ -55,17 +56,17 @@ public class ArticleService {
  	
     }
 
-    public List<ArticleVO> listArticles() {
-        List<ArticleVO> resultList = new ArrayList<>();
+    public List<ArticleListVO> listArticles() {
+        List<ArticleListVO> resultList = new ArrayList<>();
         List<Article> articles = (List<Article>) articleRepository.findAll();
         resultList = convertModeltoVO(articles);
         return resultList;
     }
 
-    private List<ArticleVO> convertModeltoVO(List<Article> articles) {
-        List<ArticleVO> articleVOS = new ArrayList<>();
+    private List<ArticleListVO> convertModeltoVO(List<Article> articles) {
+        List<ArticleListVO> articleVOS = new ArrayList<>();
         for(Article article: articles){
-            ArticleVO articleVO = new ArticleVO();
+        	ArticleListVO articleVO = new ArticleListVO();
             articleVO.setAuthor(article.getAuthor());
             articleVO.setTitle(article.getTitle());
             articleVO.setBody(article.getBody());
