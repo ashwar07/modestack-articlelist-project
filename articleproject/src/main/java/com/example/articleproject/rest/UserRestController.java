@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.articleproject.model.UserRepository;
 import com.example.articleproject.service.EncryptionService;
 import com.example.articleproject.service.UserService;
 import com.example.articleproject.vo.UserVO;
@@ -31,8 +30,8 @@ public class UserRestController {
     public ResponseEntity<String> register(@RequestBody UserVO userVO) throws Exception {
         String encryptPassword = securityService.encrypt(userVO.getPassword());
     	userVO.setPassword(encryptPassword);
-        userService.createUser(userVO);
-        ResponseEntity<String> resp = new ResponseEntity<>("New user created", HttpStatus.CREATED);
+        String registrationStatus=userService.createUser(userVO);
+        ResponseEntity<String> resp = new ResponseEntity<>(registrationStatus, HttpStatus.CREATED);
         return resp;
     }
 
@@ -43,18 +42,24 @@ public class UserRestController {
         String accesstoken = userService.validateUser(userVO);
         Map<String, String> response = new HashMap<>();
         ResponseEntity<Map<String,String>> resp = null;
-        
-        if (accesstoken != "FAILED") {
-            response.put("acessToken",accesstoken);
-            response.put("message", "success");
-            resp = new ResponseEntity<>(response, HttpStatus.OK);
-        }else {
-            response.put("acessToken","");
-            response.put("message", "AUTENTICATION FAILED");
+        if (accesstoken.equals("USER NOT REGISTRED"))
+        {
+        	response.put("acessToken",accesstoken);
+            response.put("message", "REGISTER FIRST BEFORE LOGIN");
             resp = new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-
         }
-        
+        else {
+	        if (accesstoken != "FAILED") {
+	            response.put("acessToken",accesstoken);
+	            response.put("message", "success");
+	            resp = new ResponseEntity<>(response, HttpStatus.OK);
+	        }else {
+	            response.put("acessToken","");
+	            response.put("message", "AUTENTICATION FAILED");
+	            resp = new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+	
+	        }
+        }
         return resp;
     }
 

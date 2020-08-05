@@ -21,11 +21,20 @@ public class ArticleRestController {
     public ResponseEntity<String> createArticle(@RequestBody ArticleVO articleVO) throws Exception {
         String respString = articleService.createArticle(articleVO);
         ResponseEntity<String> resp = null;
-        if(!respString.equals("")) {
+        if(respString.equals("new article created")) {
         	resp = new ResponseEntity<>(respString, HttpStatus.CREATED);
-        }else {
+        	 
+        }
+        if(respString.equals("Null Value"))
+        {
+        	respString = "Some Values Missing";
+        	resp = new ResponseEntity<>(respString, HttpStatus.EXPECTATION_FAILED);
+        	
+        }
+        else if(respString.equals("")) {
         	respString = "Invalid access token";
         	resp = new ResponseEntity<>(respString, HttpStatus.EXPECTATION_FAILED);
+        	 
         }
         
         return resp;

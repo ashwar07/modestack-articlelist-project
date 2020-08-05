@@ -13,6 +13,8 @@ public class Article {
     private Integer id;
     String title;
     String body;
+    String author;
+    String date_string;
 
     public Integer getId() {
         return id;
@@ -46,7 +48,15 @@ public class Article {
         this.author = author;
     }
 
-    String author;
+	public String getDate_string() {
+		return date_string;
+	}
+
+	public void setDate_string(String date_string) {
+		this.date_string = date_string;
+	}
+
+    
 
 
 }

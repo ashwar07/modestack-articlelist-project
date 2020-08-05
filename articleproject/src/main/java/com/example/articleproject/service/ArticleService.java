@@ -1,15 +1,16 @@
 package com.example.articleproject.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.articleproject.model.Article;
 import com.example.articleproject.model.ArticleRepository;
 import com.example.articleproject.model.User;
 import com.example.articleproject.model.UserRepository;
 import com.example.articleproject.vo.ArticleVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ArticleService {
@@ -23,16 +24,35 @@ public class ArticleService {
     public String createArticle(ArticleVO articleVO) {
     	
     	User existingUser = userRepository.findByAccessToken(articleVO.getAccess_token());
-    	if (null != existingUser) {
-            convertArticleVOtoModel(articleVO);
-            return "new article created";
-    	}else {
+    	if (null != existingUser) 
+    	{
+    		/*Retrieving date of registration */
+    		
+    		String existingDate = existingUser.getDate();
+    		CurrentDateService cds = new CurrentDateService();
+    		String currentdate = cds.currentDateString();
+    		
+    		if(cds.dateDiffrence(existingDate, currentdate))
+    		{
+    			
+    			return "";
+    		}
+    		
+            String nullcheck = convertArticleVOtoModel(articleVO);
+            if(nullcheck.equals("Saved"))
+            {
+            	return "new article created";
+            }
+            else
+            {
+            	return "Null Value";
+            }
+    	}
+    	else
+    	{
     		return "";
     	}
-
-        
-    	
-    	
+ 	
     }
 
     public List<ArticleVO> listArticles() {
@@ -54,12 +74,21 @@ public class ArticleService {
         return articleVOS;
     }
 
-    private void convertArticleVOtoModel(ArticleVO articleVO) {
+    private String convertArticleVOtoModel(ArticleVO articleVO) {
         Article article = new Article();
-        article.setTitle(articleVO.getTitle());
-        article.setAuthor(articleVO.getAuthor());
-        article.setBody(articleVO.getBody());
-        articleRepository.save(article);
+        if(null != articleVO.getTitle() && null != articleVO.getAuthor() && null != articleVO.getBody() )
+        {
+	        article.setTitle(articleVO.getTitle());
+	        article.setAuthor(articleVO.getAuthor());
+	        article.setBody(articleVO.getBody());
+	        articleRepository.save(article);
+	        return "Saved";
+        }
+        else
+        {
+        	return "";
+        }
+        
     }
 
 

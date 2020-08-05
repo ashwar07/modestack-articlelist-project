@@ -1,13 +1,6 @@
 package com.example.articleproject.service;
 
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.articleproject.model.User;
@@ -20,19 +13,29 @@ public class UserService{
 
     @Autowired
     UserRepository userRepository;
-
-    public void createUser(UserVO userVO) {
-        convertUserVOtoModel(userVO);
+    public String createUser(UserVO userVO) {
+        String registrationStatus=convertUserVOtoModel(userVO);
+        return registrationStatus;
     }
         
 
-    private void convertUserVOtoModel(UserVO userVO) {
+    private String convertUserVOtoModel(UserVO userVO) {
         User user = new User();
-        user.setUsername(userVO.getUsername());
-        user.setPassword(userVO.getPassword());
-        user.setEmail(userVO.getEmail());
-        user.setAddress(userVO.getAddress());
-        userRepository.save(user);
+        if(null != userVO.getUsername() && null != userVO.getPassword() && null != userVO.getEmail() )
+        {
+        	 user.setUsername(userVO.getUsername());
+             user.setPassword(userVO.getPassword());
+             user.setEmail(userVO.getEmail());
+             user.setAddress(userVO.getAddress());
+             userRepository.save(user);
+             
+             return "New user created";
+        }
+        else
+        {
+        	return "Please Fill all informaation  to complete Registration";
+        }
+       
     }
 
     public String validateUser(UserVO userVO) {
@@ -44,9 +47,14 @@ public class UserService{
     	String accessToken = access_token.generateToken();
     	
     	User existingUser = userRepository.findByUsername(userVO.getUsername());
-    	if(existingUser.getPassword().equals(userVO.getPassword())) {
+    	if(null == existingUser||existingUser.equals(""))
+    	{
+    		return accessToken="USER NOT REGISTRED";
+    	}
+    	
+    	if(null != userVO.getPassword() && existingUser.getPassword().equals(userVO.getPassword())) {
         	existingUser.setAccesstoken(accessToken);
-        	existingUser.setDateString(dateString);
+        	existingUser.setDate(dateString);
         	userRepository.save(existingUser);
     	}else {
     		accessToken="FAILED";    		

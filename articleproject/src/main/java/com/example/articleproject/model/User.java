@@ -17,7 +17,7 @@ public class User {
     String email;
     String address;
     String accessToken;
-    String date_string;
+    String date;
 
     
     public Integer getId() {
@@ -68,22 +68,14 @@ public class User {
 		this.accessToken = accesstoken;
 	}
 
-	public String getDate_string() {
-		return date_string;
+	public String getDate() {
+		return date;
 	}
 
-	public void setDate_string(String date_string) {
-		this.date_string = date_string;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
-	public String getDateString() {
-		return date_string;
-	}
-
-	public void setDateString(String dateString) {
-		this.date_string = dateString;
-	}
-
-    
+	
     
 }
